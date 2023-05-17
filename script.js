@@ -5,21 +5,26 @@ class Calculator {
         this.clear()
     }
 
+    // AC allClear function
     clear() {
         this.currentOperand = ''
         this.previousOperand = ''
         this.operation = undefined
     }
 
+    // Delete function
     delete() {
+        // Delete/Remove last digit from string
         this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
 
+    // appendNumber function
     appendNumber(number) {
         if (number === '.' && this.currentOperand.includes('.')) return
         this.currentOperand = this.currentOperand.toString() + number.toString()
     }
 
+    //
     chooseOperation(operation) {
         if (this.currentOperand === '') return
         if (this.previousOperand !== '') {
@@ -32,6 +37,7 @@ class Calculator {
 
     }
 
+    // Compute function computes the values entered
     compute() {
         let computation
         const prev = parseFloat(this.previousOperand)
@@ -59,6 +65,7 @@ class Calculator {
 
     }
 
+    // update values inside the display
     updateDisplay() {
         this.currentOperandTextElement.innerText = this.currentOperand
         this.previousOperandTextElement.innerText = this.previousOperand
@@ -67,29 +74,30 @@ class Calculator {
 }
 
 
+// Query data attributes from index.html buttons
+const numberButtons = document.querySelectorAll('[data-number]') // querySelectorAll applies to All elements containing data attributes = 'data-number'
+const operationButtons = document.querySelectorAll('[data-operation]') // querySelectorAll applies to All elements containing data attributes = 'data-operation'
+const equalsButton = document.querySelector('[data-equals]') // querySelector applies to a Single element containing data attribute = 'data-equals'
+const deleteButton = document.querySelector('[data-delete]') // querySelector applies to a Single element containing data attribute = 'data-delete'
+const allClearButton = document.querySelector('[data-all-clear]') // querySelector applies to a Single element containing data attribute = 'data-all-clear'
+const previousOperandTextElement = document.querySelector('[data-previous-operand]') // querySelector applies to a Single element containing data attribute = 'data-previous-operand'
+const currentOperandTextElement = document.querySelector('[data-current-operand]') // querySelector applies to a Single element containing data attribute = 'data-current-operand'
 
-const numberButtons = document.querySelectorAll('[data-number]')
-const operationButtons = document.querySelectorAll('[data-operation]')
-const equalsButton = document.querySelector('[data-equals]')
-const deleteButton = document.querySelector('[data-delete]')
-const allClearButton = document.querySelector('[data-all-clear]')
-const previousOperandTextElement = document.querySelector('[data-previous-operand]')
-const currentOperandTextElement = document.querySelector('[data-current-operand]')
-
+// Create calculator
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
-numberButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        calculator.appendNumber(button.innerText)
-        calculator.updateDisplay()
 
-        console.log()
+numberButtons.forEach(button => {
+    //EventListener - what happens when clicked
+    button.addEventListener('click', () => {
+        calculator.appendNumber(button.innerText) // append number clicked to string currentOperand calling the text inside the button element
+        calculator.updateDisplay()
     })
 })
 
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
-        calculator.chooseOperation(button.innerText)
+        calculator.chooseOperation(button.innerText) // operation clicked to string currentOperand calling the text inside the button element
         calculator.updateDisplay()
 
         console.log()
@@ -97,7 +105,7 @@ operationButtons.forEach(button => {
 })
 
 equalsButton.addEventListener('click', button => {
-    calculator.compute()
+    calculator.compute(button.innerText)
     calculator.updateDisplay()
 })
 
