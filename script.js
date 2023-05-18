@@ -25,7 +25,7 @@ class Calculator {
         this.currentOperand = this.currentOperand.toString() + number.toString() // keeps appending number to end of string
     }
 
-    //
+    // Choose Operation what happens when '/, x, +, - ' are selected
     chooseOperation(operation) {
         if (this.currentOperand === '') return
         if (this.previousOperand !== '') {
