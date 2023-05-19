@@ -20,11 +20,12 @@ class Calculator {
 
     // appendNumber function
     appendNumber(number) {
-        if (number === '.' && this.currentOperand.includes('.')) return
-        this.currentOperand = this.currentOperand.toString() + number.toString()
+        // check if decimal point has already been used. if currentOperand contains a '.'
+        if (number === '.' && this.currentOperand.includes('.')) return // if '.' is present button won't work
+        this.currentOperand = this.currentOperand.toString() + number.toString() // keeps appending number to end of string
     }
 
-    //
+    // Choose Operation what happens when '/, x, +, - ' are selected
     chooseOperation(operation) {
         if (this.currentOperand === '') return
         if (this.previousOperand !== '') {
@@ -65,10 +66,19 @@ class Calculator {
 
     }
 
+    getDisplayNumber(number) {
+        const floatNumber = parseFloat(number)
+        if (isNaN(floatNumber)) return ''
+        return floatNumber.toLocaleString('en')
+    }
+
     // update values inside the display
     updateDisplay() {
-        this.currentOperandTextElement.innerText = this.currentOperand
-        this.previousOperandTextElement.innerText = this.previousOperand
+        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
+        if (this.operation != null) {
+            this.previousOperandTextElement.innerText =
+                `${this.getDisplayNumber(this.previousOperand)} ${this.operation} ${this.currentOperand}`
+        }
         console.log(this.previousOperandTextElement, this.currentOperand)
     }
 }
@@ -85,7 +95,6 @@ const currentOperandTextElement = document.querySelector('[data-current-operand]
 
 // Create calculator
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
-
 
 numberButtons.forEach(button => {
     //EventListener - what happens when clicked
